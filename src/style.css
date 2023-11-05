@@ -11,7 +11,7 @@ img {
 }
 
 .is-hidden {
-  display: none;
+  visibility: hidden;
 }
 
 .breed-select {

@@ -19,31 +19,15 @@ let slimSelect;
 
 fetchBreeds()
   .then(breeds => {
-    selector.hidden = false;
-    selector.innerHTML = '';
-
-    breeds.forEach(breed => {
-      const selectOption = document.createElement('option');
-      selectOption.value = breed.id;
-      selectOption.textContent = breed.name;
-      selector.appendChild(selectOption);
-    });
-
-    slimSelect = new SlimSelect({
-      select: '.breed-select',
-      settings: {
-        showSearch: true,
-        searchText: 'Unfortunately, nothing was found',
-        searchPlaceholder: 'Search for a cat breed',
-        searchHighlight: true,
-      },
-    });
-
-    loader.classList.add('is-hidden');
-  })
+    const markup = breeds.map(({id, name}) => `<option value="${id}">${name}</option>`)
+      selector.innerHTML = markup;
+      selector.classList.toggle('is-hidden');
+      loader.classList.toggle('is-hidden');
+      new SlimSelect({
+        select: selector,
+      });
+    })
   .catch(error => {
-    loader.classList.add('is-hidden');
-    catInfo.classList.add('is-hidden');
     Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!', {
       position: 'center-top',
       width: '100%',
@@ -84,3 +68,5 @@ function onFetchError(error) {
   catInfo.classList.add('is-hidden');
   Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');
 }
+
+
