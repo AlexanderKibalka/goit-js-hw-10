@@ -11,7 +11,7 @@ const ref = {
 };
 const { selector, catInfo, loader, error } = ref;
 
-loader.classList.add('is-hidden');
+loader.classList.remove('is-hidden');
 error.classList.add('is-hidden');
 catInfo.classList.add('is-hidden');
 
@@ -38,11 +38,12 @@ fetchBreeds()
         searchHighlight: true,
       },
     });
-    loader.style.display = 'none';
+
+    loader.classList.add('is-hidden');
   })
   .catch(error => {
-    loader.style.display = 'none';
-    catInfo.style.display = 'none';
+    loader.classList.add('is-hidden');
+    catInfo.classList.add('is-hidden');
     Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!', {
       position: 'center-top',
       width: '100%',
@@ -54,15 +55,15 @@ fetchBreeds()
 selector.addEventListener('change', onSelectBreed);
 
 function onSelectBreed(event) {
-  loader.classList.replace('is-hidden', 'loader');
+  catInfo.innerHTML = '';
+  loader.classList.remove('is-hidden');
   selector.classList.add('is-hidden');
-  catInfo.classList.add('is-hidden');
 
   const breedId = event.currentTarget.value;
-  
+
   fetchCatByBreed(breedId)
     .then(data => {
-      loader.classList.replace('loader', 'is-hidden');
+      loader.classList.add('is-hidden');
       selector.classList.remove('is-hidden');
       catInfo.classList.remove('is-hidden');
       const { url, breeds } = data[0];
@@ -74,13 +75,12 @@ function onSelectBreed(event) {
        <p>${breeds[0].description}</p>
        <p>Характер: ${breeds[0].temperament}</p>
        </div>`;
-
     })
     .catch(onFetchError);
 }
 
 function onFetchError(error) {
-  loader.classList.replace('loader', 'is-hidden');
-  catInfo.style.display = 'none';
+  loader.classList.add('is-hidden');
+  catInfo.classList.add('is-hidden');
   Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');
 }
