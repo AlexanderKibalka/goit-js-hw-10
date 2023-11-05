@@ -15,6 +15,8 @@ loader.classList.add('is-hidden');
 error.classList.add('is-hidden');
 catInfo.classList.add('is-hidden');
 
+let slimSelect;
+
 fetchBreeds()
   .then(breeds => {
     selector.hidden = false;
@@ -27,7 +29,7 @@ fetchBreeds()
       selector.appendChild(selectOption);
     });
 
-    const slimSelect = new SlimSelect({
+    slimSelect = new SlimSelect({
       select: '.breed-select',
       settings: {
         showSearch: true,
